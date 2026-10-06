@@ -1,0 +1,2 @@
+# WiTrust MVP uses only Python standard-library modules.
+# No pip installation is required.
