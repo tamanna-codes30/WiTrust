@@ -2,7 +2,7 @@ def get_recommendations(level, reasons):
 
     recommendations = []
 
-    text = " ".join(reasons).lower()
+    text = " ".join(reasons).casefold()
 
 
     # HIGH RISK
@@ -79,7 +79,7 @@ def get_recommendations(level, reasons):
 
     # UNKNOWN SECURITY
 
-    if "could not be determined" in text:
+    if "could not be determined" in text or "could not be classified" in text:
 
         recommendations.append(
             "WiTrust could not verify the network's "
@@ -89,6 +89,26 @@ def get_recommendations(level, reasons):
         recommendations.append(
             "Check the network settings or verify "
             "the network with its owner."
+        )
+
+    if "reports conflict" in text:
+        recommendations.append(
+            "Treat the scan as unverified and confirm the access point configuration with its owner."
+        )
+
+    if "legacy wpa security" in text or "legacy tkip cipher" in text:
+        recommendations.append(
+            "Prefer WPA2 with AES/CCMP or WPA3; ask the network owner to update the access point."
+        )
+
+    if "possible evil-twin indicator" in text:
+        recommendations.append(
+            "Do not connect until you confirm the access point and security settings with the network owner."
+        )
+
+    if "listed as malicious" in text:
+        recommendations.append(
+            "Avoid this access point and verify the BSSID against a trusted source."
         )
 
 
